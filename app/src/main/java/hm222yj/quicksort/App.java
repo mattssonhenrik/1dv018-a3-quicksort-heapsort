@@ -10,28 +10,29 @@ import hm222yj.quicksort.filemanager.FileManager;
 public class App {
     public static void main(String[] args) {
         // DATA SETTINGS
-        int dataSize = 10;
+        int dataSize = 100;
         int minValue = 0;
-        int maxValue = 10;
+        int maxValue = 100;
 
         App app = new App();
         Quicksort quicksort = new Quicksort();
 
         int[] arrayToSort = app.randomArray(dataSize, minValue, maxValue);
-        // for (int number : arrayToSort) {
-        //     System.out.println(number);
-        // }
-        
+        for (int number : arrayToSort) {
+            System.out.println(number);
+        }
+
         System.out.println("-----------------------------SOOOOOORTING-------------------------------");
 
-        quicksort.sortArray(arrayToSort, minValue, maxValue-1);
-        // for (int number : arrayToSort) {
-        //     System.out.println(number);
-        // }
+        quicksort.sortArray(arrayToSort, minValue, maxValue - 1);
+        for (int number : arrayToSort) {
+            System.out.println(number);
+        }
 
     }
 
 
+    //------------------Helper methods------------------
     // Random array generator
     private int[] randomArray(int dataSize, int minValue, int maxValue) {
         Random randomNumber = new Random();
