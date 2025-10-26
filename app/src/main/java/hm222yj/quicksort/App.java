@@ -9,12 +9,10 @@ import hm222yj.quicksort.filemanager.FileManager;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-
         // DATA SETTINGS
-        int dataSize = 100;
+        int dataSize = 1000;
         int minValue = 0;
-        int maxValue = 100;
+        int maxValue = 1000;
 
         App app = new App();
         Quicksort quicksort = new Quicksort();
@@ -26,17 +24,15 @@ public class App {
         
         System.out.println("-----------------------------SOOOOOORTING-------------------------------");
 
-        quicksort.sortArray(arrayToSort, minValue, maxValue);
+        quicksort.sortArray(arrayToSort, minValue, maxValue-1);
         for (int number : arrayToSort) {
             System.out.println(number);
         }
 
     }
 
-    public String getGreeting() {
-        return "Hello World! +2";
-    }
 
+    // Random array generator
     private int[] randomArray(int dataSize, int minValue, int maxValue) {
         Random randomNumber = new Random();
         int[] arrayData = new int[dataSize];

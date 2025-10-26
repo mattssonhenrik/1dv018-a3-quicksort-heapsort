@@ -1,9 +1,9 @@
 package hm222yj.quicksort.quicksort;
 
 public class Quicksort {
-    public int[] partion (int[] arrayToSort, int low, int high) {
+    public int partion (int[] arrayToSort, int low, int high) {
         int i = low;
-        int j = high;
+        int j = high + 1;
 
         while (true) {
             i++;
@@ -34,10 +34,15 @@ public class Quicksort {
         arrayToSort[low] = arrayToSort[j];
         arrayToSort[j] = temp;
 
-        return arrayToSort;
+        return j;
     }
 
-    public int[] sortArray() {
-
+    public void sortArray(int[] arrayToSort, int low, int high) {
+        if (high <= low) {
+            return;
+        }
+        int j = partion(arrayToSort, low, high);
+        sortArray(arrayToSort, low, j-1);
+        sortArray(arrayToSort, j+1, high);
     }
 }
