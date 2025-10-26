@@ -1,21 +1,33 @@
 package hm222yj.quicksort.quicksort;
 
+import java.util.Arrays;
+
 public class Quicksort {
-    public int partion (int[] arrayToSort, int low, int high) {
+    public void sortArray(int[] arrayToSort, int low, int high) {
+        if (high <= low) {
+            return;
+        }
+        int j = partion(arrayToSort, low, high);
+        sortArray(arrayToSort, low, j - 1);
+        sortArray(arrayToSort, j + 1, high);
+    }
+
+    public int partion(int[] arrayToSort, int low, int high) {
         int i = low;
         int j = high + 1;
+        int pivot = medianOfThree(arrayToSort, low, high);
 
         while (true) {
             i++;
-            while (arrayToSort[i] < arrayToSort[low]) {
-                if (i == high ) {
+            while (arrayToSort[i] < pivot) {
+                if (i == high) {
                     break;
                 }
                 i++;
             }
 
             j--;
-            while (arrayToSort[low] < arrayToSort[j]) {
+            while (pivot < arrayToSort[j]) {
                 if (j == low) {
                     break;
                 }
@@ -37,12 +49,15 @@ public class Quicksort {
         return j;
     }
 
-    public void sortArray(int[] arrayToSort, int low, int high) {
-        if (high <= low) {
-            return;
-        }
-        int j = partion(arrayToSort, low, high);
-        sortArray(arrayToSort, low, j-1);
-        sortArray(arrayToSort, j+1, high);
+    public int medianOfThree(int[] arrayToSort, int low, int high) {
+        int medianIndex = (low + high) / 2;
+        int[] medianArray = { arrayToSort[low], arrayToSort[medianIndex], arrayToSort[high] };
+        Arrays.sort(medianArray);
+        // System.out.println("This is the pivot " + medianArray[1]);
+        // System.out.println("In the array: ");
+        // for (int number : medianArray) {
+        // System.out.println(number);
+        // }
+        return medianArray[1];
     }
 }
