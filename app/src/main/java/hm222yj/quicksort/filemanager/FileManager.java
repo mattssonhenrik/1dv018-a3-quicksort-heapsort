@@ -33,8 +33,7 @@ public class FileManager {
     }
 
     // Write to File
-    public void writeToFile(String path, int dataSize, int unions, double averageTimeInNanoSeconds,
-            double standardDeviation) throws Exception {
+    public void writeToFile(String path, int arraySize, int depthSwitch, double seconds) throws Exception {
         Path pathToOldFile = Path.of(path);
         List<String> lines = Files.readAllLines(pathToOldFile);
 
@@ -46,10 +45,10 @@ public class FileManager {
         for (int i = 1; i < lines.size(); i++) {
             String line = lines.get(i);
             String[] parts = line.split(",");
-            int currentDataSize = Integer.parseInt(parts[0]);
-            int currentUnions = Integer.parseInt(parts[1]);
-            if (currentDataSize == dataSize && currentUnions == unions) {
-                String newRow = dataSize + "," + unions + "," + averageTimeInNanoSeconds + "," + standardDeviation;
+            int currentArraySize = Integer.parseInt(parts[0]);
+            int currentDepthSwitch = Integer.parseInt(parts[1]);
+            if (currentArraySize == arraySize && currentDepthSwitch == depthSwitch) {
+                String newRow = arraySize + "," + depthSwitch + "," + seconds;
                 rows.add(newRow);
                 replaced = true;
             } else { 
@@ -58,7 +57,7 @@ public class FileManager {
         }
 
         if (!replaced) {
-            String newRow = dataSize + "," + unions + "," + averageTimeInNanoSeconds + "," + standardDeviation;
+            String newRow = arraySize + "," + depthSwitch + "," + seconds;
             rows.add(newRow);
         }
 
@@ -71,50 +70,6 @@ public class FileManager {
         }
         writer.close();
     }
-
-    // Overloaded Write to File
-    public void writeToFile(String path,int dataSize,int minValue,int maxValue,double seconds,int combinationsFound) throws Exception {
-    Path pathToFile = Path.of(path);
-    List<String> lines = Files.readAllLines(pathToFile);
-
-    String headerLine = lines.get(0);
-    ArrayList<String> rows = new ArrayList<>();
-    boolean wasReplaced = false;
-
-    String newRow = dataSize + "," + minValue + "," + maxValue + ","
-                  + seconds + "," + combinationsFound;
-
-    for (int i = 1; i < lines.size(); i++) {     
-        String currentLine = lines.get(i).trim();
-        if (currentLine.isEmpty()) continue;
-
-        String[] parts = currentLine.split(",", -1);
-        int currentDataSize = Integer.parseInt(parts[0].trim());
-        int currentMinValue = Integer.parseInt(parts[1].trim());
-        int currentMaxValue = Integer.parseInt(parts[2].trim());
-
-        if (currentDataSize == dataSize && currentMinValue == minValue && currentMaxValue == maxValue) {
-            rows.add(newRow);     
-            wasReplaced = true;
-        } else {
-            rows.add(currentLine); 
-        }
-    }
-
-    if (!wasReplaced) {
-        rows.add(newRow);          
-    }
-
-    BufferedWriter writer = Files.newBufferedWriter(pathToFile, StandardOpenOption.TRUNCATE_EXISTING);
-    writer.write(headerLine);
-    writer.newLine();
-    for (String row : rows) {
-        writer.write(row);
-        writer.newLine();
-    }
-    writer.close();
-}
-
 
     // Read File
     public String readFromFile(String path) throws Exception {

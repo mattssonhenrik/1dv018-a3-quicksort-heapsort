@@ -10,29 +10,54 @@ import hm222yj.quicksort.filemanager.FileManager;
 public class App {
     public static void main(String[] args) {
         // DATA SETTINGS
-        int dataSize = 100;
+        int dataSize = 1_000_000_000;
         int minValue = 0;
-        int maxValue = 100;
+        int maxValue = 1_000_000_000;
+        int depthSwitch = 0;
 
         App app = new App();
         Quicksort quicksort = new Quicksort();
+        FileManager fileManager = new FileManager();
+        String csvPathQuickSortHeapSort = "build/quicksortheapsortresults.csv";
+        try {
+            boolean check = fileManager.createFileIfFileIsMissing(csvPathQuickSortHeapSort);
+            if (check) {
+                fileManager.writeCSVheaders(csvPathQuickSortHeapSort,
+                        "Array size, Depth switch, Seconds");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         int[] arrayToSort = app.randomArray(dataSize, minValue, maxValue);
-        for (int number : arrayToSort) {
-            System.out.println(number);
+
+        // for (int number : arrayToSort) {
+        // System.out.println(number);
+        // }
+
+        // --------------------------------------------- Sort Array
+        // --------------------------------------------
+        System.out.println("-----------------------------SORTING-------------------------------");
+        long startQSnodepthlimit = System.nanoTime();
+        quicksort.sortArray(arrayToSort, minValue, maxValue - 1, depthSwitch);
+        long endQSnodepthlimit = System.nanoTime();
+        long runtimeQSnodepthlimit = endQSnodepthlimit - startQSnodepthlimit;
+        double runtimeInSeconds = runtimeQSnodepthlimit / 1_000_000_000.0;
+        System.out.println(runtimeInSeconds);
+
+        // for (int number : arrayToSort) {
+        //     System.out.println(number);
+        // }
+
+        try {
+            fileManager.writeToFile(csvPathQuickSortHeapSort, maxValue, depthSwitch, runtimeInSeconds);
+            fileManager.sortCSVfile(csvPathQuickSortHeapSort);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-
-        System.out.println("-----------------------------SOOOOOORTING-------------------------------");
-
-        quicksort.sortArray(arrayToSort, minValue, maxValue - 1);
-        for (int number : arrayToSort) {
-            System.out.println(number);
-        }
-
     }
 
-
-    //------------------Helper methods------------------
+    // ------------------Helper methods------------------
     // Random array generator
     private int[] randomArray(int dataSize, int minValue, int maxValue) {
         Random randomNumber = new Random();

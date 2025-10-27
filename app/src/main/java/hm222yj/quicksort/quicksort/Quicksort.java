@@ -1,14 +1,14 @@
 package hm222yj.quicksort.quicksort;
 
 public class Quicksort {
-    public void sortArray(int[] arrayToSort, int low, int high) {
+    public void sortArray(int[] arrayToSort, int low, int high, int depthSwitch) {
         if (high <= low) {
             return;
         }
         int j = partion(arrayToSort, low, high);
-        sortArray(arrayToSort, low, j - 1);
+        sortArray(arrayToSort, low, j - 1, depthSwitch);
         // System.out.println("INVOKING THE RIGHT PART OF THE ARRAY SORTING ALGO");
-        sortArray(arrayToSort, j + 1, high);
+        sortArray(arrayToSort, j + 1, high, depthSwitch);
     }
 
     public int partion(int[] arrayToSort, int low, int high) {
