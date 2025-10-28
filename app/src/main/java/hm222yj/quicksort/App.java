@@ -10,20 +10,26 @@ import hm222yj.quicksort.filemanager.FileManager;
 public class App {
     public static void main(String[] args) {
         // DATA SETTINGS
-        int dataSize = 30;
+        int dataSize = 1_000_000_000;
         int minValue = 0;
-        int maxValue = 30;
+        int maxValue = 1_000_000_000;
         int depthSwitch = 0;
 
         App app = new App();
         Quicksort quicksort = new Quicksort();
         FileManager fileManager = new FileManager();
         String csvPathQuickSortHeapSort = "build/quicksortheapsortresults.csv";
+        String onlyHeapSort = "build/onlyheapsort.csv";
         try {
             boolean check = fileManager.createFileIfFileIsMissing(csvPathQuickSortHeapSort);
             if (check) {
                 fileManager.writeCSVheaders(csvPathQuickSortHeapSort,
                         "Array size, Depth switch, Seconds");
+            }
+            check = fileManager.createFileIfFileIsMissing(onlyHeapSort);
+            if (check) {
+                fileManager.writeCSVheaders(onlyHeapSort,
+                        "Array size, Seconds");
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -43,26 +49,34 @@ public class App {
         // long startQSnodepthlimit = System.nanoTime();
         // quicksort.sortArray(arrayToSort, minValue, maxValue - 1, depthSwitch);
         // long endQSnodepthlimit = System.nanoTime();
-        // long runtimeQSnodepthlimit = endQSnodepthlimit - startQSnodepthlimit;
+        // long runtimeQSnodepthlimit  = endQSnodepthlimit - startQSnodepthlimit;
         // double runtimeInSeconds = runtimeQSnodepthlimit / 1_000_000_000.0;
         // System.out.println(runtimeInSeconds);
-
-        // HS
-        quicksort.heapSort(arrayToSort);
-
-        
-
-
-        for (int number : arrayToSort) {
-        System.out.println(number);
-        }
-
         // try {
         // fileManager.writeToFile(csvPathQuickSortHeapSort, maxValue, depthSwitch,
         // runtimeInSeconds);
         // fileManager.sortCSVfile(csvPathQuickSortHeapSort);
         // } catch (Exception e) {
         // System.out.println(e);
+        // }
+
+        // HS
+        long startHeapsort = System.nanoTime();
+        quicksort.heapSort(arrayToSort);
+        long endHeapsort = System.nanoTime();
+        long runtimeHeapsort = endHeapsort - startHeapsort;
+        double runtimeInSecondsHeapsort = runtimeHeapsort / 1_000_000_000.0;
+        System.out.println(runtimeInSecondsHeapsort);
+        try {
+        fileManager.writeToFile(onlyHeapSort, maxValue,
+        runtimeInSecondsHeapsort);
+        // fileManager.sortCSVfile(onlyHeapSort);
+        } catch (Exception e) {
+        System.out.println(e);
+        }
+
+             // for (int number : arrayToSort) {
+        //     System.out.println(number);
         // }
     }
 

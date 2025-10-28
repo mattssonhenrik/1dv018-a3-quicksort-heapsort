@@ -41,7 +41,7 @@ public class FileManager {
         List<String> rows = new ArrayList<String>();
         boolean replaced = false;
 
-        // Kolla efter dubbletter. 
+        // Kolla efter dubbletter.
         for (int i = 1; i < lines.size(); i++) {
             String line = lines.get(i);
             String[] parts = line.split(",");
@@ -51,13 +51,51 @@ public class FileManager {
                 String newRow = arraySize + "," + depthSwitch + "," + seconds;
                 rows.add(newRow);
                 replaced = true;
-            } else { 
+            } else {
                 rows.add(line);
             }
         }
 
         if (!replaced) {
             String newRow = arraySize + "," + depthSwitch + "," + seconds;
+            rows.add(newRow);
+        }
+
+        BufferedWriter writer = Files.newBufferedWriter(pathToOldFile, StandardOpenOption.TRUNCATE_EXISTING);
+        writer.write(header);
+        writer.newLine();
+        for (String row : rows) {
+            writer.write(row);
+            writer.newLine();
+        }
+        writer.close();
+    }
+
+    // **OVERLOADED** Write to File WITHOUT depth
+    public void writeToFile(String path, int arraySize, double seconds) throws Exception {
+        Path pathToOldFile = Path.of(path);
+        List<String> lines = Files.readAllLines(pathToOldFile);
+
+        String header = lines.get(0);
+        List<String> rows = new ArrayList<String>();
+        boolean replaced = false;
+
+        // Kolla efter dubbletter.
+        for (int i = 1; i < lines.size(); i++) {
+            String line = lines.get(i);
+            String[] parts = line.split(",");
+            int currentArraySize = Integer.parseInt(parts[0]);
+            if (currentArraySize == arraySize) {
+                String newRow = arraySize + "," + seconds;
+                rows.add(newRow);
+                replaced = true;
+            } else {
+                rows.add(line);
+            }
+        }
+
+        if (!replaced) {
+            String newRow = arraySize + "," + seconds;
             rows.add(newRow);
         }
 
