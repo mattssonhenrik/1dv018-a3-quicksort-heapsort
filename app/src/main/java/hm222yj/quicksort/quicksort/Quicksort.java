@@ -9,10 +9,15 @@ public class Quicksort {
         if (high <= low) {
             return;
         }
+
+        if (depthSwitch == 0) {
+            heapSort(arrayToSort);
+            return;
+        }
         int j = partion(arrayToSort, low, high);
-        sortArray(arrayToSort, low, j - 1, depthSwitch);
+        sortArray(arrayToSort, low, j - 1, depthSwitch - 1);
         // System.out.println("INVOKING THE RIGHT PART OF THE ARRAY SORTING ALGO");
-        sortArray(arrayToSort, j + 1, high, depthSwitch);
+        sortArray(arrayToSort, j + 1, high, depthSwitch - 1);
     }
 
     private int partion(int[] arrayToSort, int low, int high) {
