@@ -11,23 +11,23 @@ import hm222yj.quicksort.mathlogtest.MathLogTest;
 public class App {
     public static void main(String[] args) {
         // DATA SETTINGS
-        int dataSize = 300_000_000;
+        int dataSize = 10_000_000;
+        int maxValue = 10_000_000;
         int minValue = 0;
-        int maxValue = 300_000_000;
-        int depthSwitch = (int) (2 * Math.floor(Math.log(dataSize) / Math.log(2)));
-        // int depthSwitch = 0;
+        // int depthSwitch = (int) (2 * Math.floor(Math.log(dataSize) / Math.log(2)));
+        int depthSwitch = 0;
 
         App app = new App();
         Quicksort quicksort = new Quicksort();
         FileManager fileManager = new FileManager();
         MathLogTest mathlogtest = new MathLogTest();
 
-        String csvPathQuickSortHeapSort = "build/quicksortheapsortresults.csv";
+        String csvPathQuickSortHeapSort2 = "build/quicksortheapsortresults2.csv";
         String onlyHeapSort = "build/onlyheapsort.csv";
         try {
-            boolean check = fileManager.createFileIfFileIsMissing(csvPathQuickSortHeapSort);
+            boolean check = fileManager.createFileIfFileIsMissing(csvPathQuickSortHeapSort2);
             if (check) {
-                fileManager.writeCSVheaders(csvPathQuickSortHeapSort,
+                fileManager.writeCSVheaders(csvPathQuickSortHeapSort2,
                         "Array size, Depth switch, Seconds");
             }
             check = fileManager.createFileIfFileIsMissing(onlyHeapSort);
@@ -60,9 +60,9 @@ public class App {
         System.out.println(runtimeInSeconds);
 
         try {
-        fileManager.writeToFile(csvPathQuickSortHeapSort, maxValue, depthSwitch,
+        fileManager.writeToFile(csvPathQuickSortHeapSort2, maxValue, depthSwitch,
         runtimeInSeconds);
-        fileManager.sortCSVfile(csvPathQuickSortHeapSort);
+        fileManager.sortCSVfile(csvPathQuickSortHeapSort2);
         } catch (Exception e) {
         System.out.println(e);
         }
