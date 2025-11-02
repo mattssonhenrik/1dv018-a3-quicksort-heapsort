@@ -11,23 +11,23 @@ import hm222yj.quicksort.mathlogtest.MathLogTest;
 public class App {
     public static void main(String[] args) {
         // DATA SETTINGS
-        int dataSize = 10_000_000;
-        int maxValue = 10_000_000;
+        int dataSize = 900_000_000;
+        int maxValue = 900_000_000;
         int minValue = 0;
-        // int depthSwitch = (int) (2 * Math.floor(Math.log(dataSize) / Math.log(2)));
-        int depthSwitch = 0;
+        int depthSwitch = (int) (3 * Math.floor(Math.log(dataSize) / Math.log(2)));
+        // int depthSwitch = 0;
 
         App app = new App();
         Quicksort quicksort = new Quicksort();
         FileManager fileManager = new FileManager();
         MathLogTest mathlogtest = new MathLogTest();
 
-        String csvPathQuickSortHeapSort2 = "build/quicksortheapsortresults2.csv";
+        String csvPathQuickSortHeapSort3gångerLOG = "build/quicksortheapsortresults3gångerLOG.csv";
         String onlyHeapSort = "build/onlyheapsort.csv";
         try {
-            boolean check = fileManager.createFileIfFileIsMissing(csvPathQuickSortHeapSort2);
+            boolean check = fileManager.createFileIfFileIsMissing(csvPathQuickSortHeapSort3gångerLOG);
             if (check) {
-                fileManager.writeCSVheaders(csvPathQuickSortHeapSort2,
+                fileManager.writeCSVheaders(csvPathQuickSortHeapSort3gångerLOG,
                         "Array size, Depth switch, Seconds");
             }
             check = fileManager.createFileIfFileIsMissing(onlyHeapSort);
@@ -60,9 +60,9 @@ public class App {
         System.out.println(runtimeInSeconds);
 
         try {
-        fileManager.writeToFile(csvPathQuickSortHeapSort2, maxValue, depthSwitch,
+        fileManager.writeToFile(csvPathQuickSortHeapSort3gångerLOG, maxValue, depthSwitch,
         runtimeInSeconds);
-        fileManager.sortCSVfile(csvPathQuickSortHeapSort2);
+        fileManager.sortCSVfile(csvPathQuickSortHeapSort3gångerLOG);
         } catch (Exception e) {
         System.out.println(e);
         }
